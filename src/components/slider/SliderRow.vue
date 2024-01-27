@@ -1,9 +1,9 @@
 <template>
     <div class="slider-row">
         <div class="slide-description">
-            <img :src="data.imageUrl" alt="slide img" />
+            <div class="slide-img" :style="{'background-image': `url(${data.imageUrl})`}"></div>
             <div class="slide-info">
-                <p>{{ data.title }}</p>
+                <p>{{ data.titleKA }}</p>
                 <p>{{ data.date }}</p>
             </div>
         </div>
@@ -21,7 +21,8 @@
             </div>
         </div>
     </div>
-    <pop-up v-if="deletePopupVisible">
+
+    <pop-up v-if="deletePopupVisible" @close="deletePopupVisible = false">
         <p>დარწმუნებული ხართ რომ გსურთ წაშლა?</p>
 
         <template v-slot:actions>
@@ -44,8 +45,13 @@
         <p v-if="deleteErrorMessage">{{ deleteErrorMessage }}</p>
     </pop-up>
 
-    <pop-up v-if="updatePopupVisible">
-        <slider-form :sliderToEdit="data" @sliderUpdate="handleSliderUpdate"></slider-form>
+    <pop-up v-if="updatePopupVisible" @close="updatePopupVisible = false">
+        <slider-form
+            :sliderToEdit="data"
+            @sliderUpdate="handleSliderUpdate"
+            @closeForm="updatePopupVisible = false"
+        >
+        </slider-form>
     </pop-up>
 </template>
 <script lang="ts" setup>
@@ -84,14 +90,16 @@ async function deleteSlider() {
 
     if (resp.status == 201) {
         deleteLoading.value = false;
+        deletePopupVisible.value = false;
         emit('sliderDelete', props.data.ID);
     } else {
         deleteErrorMessage.value = 'An error has occured';
     }
 }
 
-function handleSliderUpdate (sliderData:Slider) {
-    emit('sliderUpdate', sliderData)
+function handleSliderUpdate(sliderData: Slider) {
+    emit('sliderUpdate', sliderData);
+    updatePopupVisible.value = false;
 }
 </script>
 <style lang="scss" scoped>
@@ -111,12 +119,13 @@ function handleSliderUpdate (sliderData:Slider) {
         height: 4.5rem;
         min-width: 0;
 
-        img {
-            display: flex;
+        .slide-img {
             justify-self: flex-start;
-            border-radius: 0.5rem;
             height: inherit;
-            width: auto;
+            width: 7rem;
+            border-radius: 0.5rem;
+            background-size: cover;
+            background-position: center;
         }
 
         .slide-info {

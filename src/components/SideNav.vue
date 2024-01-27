@@ -26,7 +26,6 @@
     </nav>
 </template>
 <script setup lang="ts">
-// import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useSidebarState } from '@/use/useSidebarState';
 import navJson from '@/assets/navigation.json';
@@ -75,7 +74,6 @@ const navArray: NavObj[] = navJson;
 
         .button {
             @include pill-shape($height: 2rem);
-            // max-width is needed for transtion to work
             width: 8.75rem;
             transition: width $transitionDuration;
 

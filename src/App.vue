@@ -29,7 +29,6 @@ const { toggleMobileSidebar } = useSidebarState();
 }
 
 #view-wrapper {
-    display: flex;
     flex-grow: 1;
     padding: 2rem;
     overflow: auto;

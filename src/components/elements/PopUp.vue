@@ -1,18 +1,18 @@
 <template>
-    <!-- <Teleport to="body"> -->
-        <div class="wrapper dark-backdrop">
-            <div class="window">
-                <slot></slot>
-                <div class="buttons">
-                    <slot name="actions"></slot>
-                </div>
+    <div class="wrapper dark-backdrop">
+        <div class="window" @click.stop @keydown.stop>
+            <slot></slot>
+            <div class="buttons">
+                <slot name="actions"></slot>
             </div>
         </div>
-    <!-- </Teleport> -->
+    </div>
 </template>
-<script script="ts" setup>
-function closePopUp(params) {}
+
+<script lang="ts" setup>
+    const emit = defineEmits(['close'])
 </script>
+
 <style lang="scss" scoped>
 .wrapper {
     display: flex;
@@ -28,7 +28,7 @@ function closePopUp(params) {}
         min-width: 30rem;
         max-width: 80vw;
         min-height: 15rem;
-        max-height: 60vh;
+        max-height: 90vh;
         background-color: #fff;
         max-width: 40rem;
         z-index: 3;

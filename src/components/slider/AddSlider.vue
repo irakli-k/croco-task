@@ -33,14 +33,14 @@ import type { Slider } from '@/types/slider';
 
 const emit = defineEmits(['sliderAdd']);
 
-const isFormExpanded = ref(false);
+const isFormExpanded = ref<boolean>(false);
 
-const expandForm = () => {
+function expandForm() {
     if (!isFormExpanded.value) {
         isFormExpanded.value = true;
     }
 };
-const collapseForm = () => {
+function collapseForm() {
     isFormExpanded.value = false;
 };
 

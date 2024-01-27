@@ -6,7 +6,6 @@
                 class="sidebar-toggle-icon"
             ></div>
         </div>
-        <!-- <slot title="route"></slot> -->
         <div class="current-route-title-and-icon">
             <div
                 class="current-route-icon"

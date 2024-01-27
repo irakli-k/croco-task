@@ -3,8 +3,6 @@
         <view-header>
             <template v-slot:append>
                 <search-input v-model="searchPhrase"></search-input>
-                <!-- v-model="" -->
-                <!-- <input type="text" class="input" placeholder="ძიება" /> -->
             </template>
         </view-header>
         <add-slider @sliderAdd="handeSliderAdd"></add-slider>
@@ -82,7 +80,13 @@ function handleSliderDelete(sliderID: number) {
     sliderList.value = sliderList.value.filter((el) => el.ID != sliderID);
 }
 
-function handleSliderUpdate(sliderData: Slider) {}
+function handleSliderUpdate(sliderData: Slider) {
+    sliderList.value.forEach((el, ind) => {
+        if (el.ID == sliderData.ID) {
+            sliderList.value.splice(ind, 1, sliderData)
+        }
+    })
+}
 
 void (function setup() {
     setSliders();
@@ -92,7 +96,6 @@ void (function setup() {
 .slider-view {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
     gap: 2rem;
     min-width: 0;
 

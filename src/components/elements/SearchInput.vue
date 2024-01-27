@@ -1,5 +1,4 @@
 <template>
-    <!-- @input="emit('update:modelValue', $event.target.value)" -->
     <input
         :value="modelValue"
         @input="updateValue"

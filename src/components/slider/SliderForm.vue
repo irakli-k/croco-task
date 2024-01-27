@@ -3,8 +3,8 @@
         @submit.prevent="addOrUpdateSLider"
         class="slider-form-wrapper"
         ref="formEl"
+        :class="{ 'inside-popup': isSliderEdit }"
     >
-        <!-- <div></div> -->
         <input
             v-model="sliderParams.titleKA"
             required
@@ -21,7 +21,6 @@
         />
         <input
             @input="styleFileInput"
-            required
             class="input"
             placeholder="ატვირთე სურათი"
             inner-text="ატვირთე სურათი"
@@ -47,7 +46,8 @@
             class="add-slide-button button"
             :class="{ loading: loading }"
         >
-            <span class="omittable-text">სლაიდერის</span> დამატება
+            <span class="omittable-text">სლაიდერის</span>
+            <span>{{ !isSliderEdit ? 'დამატება' : 'განახლება' }}</span>
         </button>
     </form>
 </template>
@@ -83,7 +83,7 @@ function setSliderParams() {
 
     sliderParams.titleKA = props.sliderToEdit.titleKA;
     sliderParams.titleEN = props.sliderToEdit.titleEN;
-    sliderParams.date = props.sliderToEdit.date;
+    sliderParams.date = getDateStr(props.sliderToEdit.date);
 }
 
 async function addOrUpdateSLider() {
@@ -92,7 +92,7 @@ async function addOrUpdateSLider() {
     sliderParams.titleEN && formData.append('titleEN', sliderParams.titleEN);
     sliderParams.date && formData.append('date', sliderParams.date);
 
-    if (fileInp.value?.files) {
+    if (fileInp.value?.files && fileInp.value?.files.length) {
         sliderParams.image = fileInp.value?.files[0];
         formData.append('image', sliderParams.image, 'image.jpg');
     }
@@ -106,7 +106,10 @@ async function addOrUpdateSLider() {
     }
 
     let resp = await fetch(requestUrl, {
-        /// fake request
+        /*
+            Fake request.
+            Can't use formdata, because it will cause cors error, hence passing sliderParams as body
+        */
         body: JSON.stringify(sliderParams),
         method: 'post'
     });
@@ -118,10 +121,10 @@ async function addOrUpdateSLider() {
 
         /// imitate resp
         data = {
-            ID: Math.ceil(Math.random() * 1000000),
+            ID: props.sliderToEdit?.ID || Math.ceil(Math.random() * 1000000),
             titleKA: sliderParams.titleKA,
             titleEN: sliderParams.titleEN,
-            date: sliderParams.date,
+            date: getDateStr(sliderParams.date, 'dd.MM.yyyy'),
             imageUrl: '/src/assets/photos/grasruti.jpeg'
         };
 
@@ -143,6 +146,35 @@ function styleFileInput(e: Event) {
     (e.target as HTMLInputElement).setAttribute('inner-text', imgName);
 }
 
+function getDateStr(
+    date: string | Date,
+    format: string = 'yyyy-MM-dd'
+): string {
+    if (!(date instanceof Date)) {
+        date = new Date(date);
+    }
+    if (typeof date == 'string' && date === 'Invalid Date') return '';
+
+    var days = ('0' + date.getDate()).slice(-2),
+        month = ('0' + (date.getMonth() + 1)).slice(-2),
+        year = date.getFullYear().toString(),
+        hours = ('0' + date.getHours()).slice(-2),
+        minutes = ('0' + date.getMinutes()).slice(-2),
+        seconds = ('0' + date.getSeconds()).slice(-2);
+
+    if (format.includes('hh')) hours = ((Number(hours) + 1) % 12).toString();
+
+    return format
+        .replace('yyyy', year)
+        .replace('yy', String(year).slice(-2))
+        .replace('MM', month)
+        .replace('dd', days)
+        .replace('HH', hours)
+        .replace('hh', hours)
+        .replace('mm', minutes)
+        .replace('ss', seconds);
+}
+
 void (function setup() {
     setSliderParams();
 })();
@@ -155,7 +187,6 @@ void (function setup() {
     row-gap: 0.75rem;
     column-gap: 1.5rem;
     background-color: #fff;
-    // height: 200px;
     border-radius: 0.75rem;
     padding: 2rem 1.5rem;
 
@@ -164,7 +195,6 @@ void (function setup() {
 
         &[type='file']::before {
             content: attr(inner-text);
-            // color: $textColor;
         }
     }
 
@@ -182,6 +212,12 @@ void (function setup() {
         grid-column: 3/4;
         grid-row: 5/6;
     }
+}
+.slider-form-wrapper.inside-popup {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
 }
 
 @media (max-width: 1280px) {
