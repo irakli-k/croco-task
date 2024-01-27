@@ -1,0 +1,57 @@
+[
+    {
+        "route": "/content",
+        "name_ka": "კონტენტი",
+        "icon_name": "document"
+    },
+    {
+        "route": "/settings",
+        "name_ka": "პარამეტრები",
+        "icon_name": "settings"
+    },
+    {
+        "route": "/admins",
+        "name_ka": "ადმინები",
+        "icon_name": "profile-2user"
+    },
+    {
+        "route": "/leaderboards",
+        "name_ka": "ლიდერბორდი",
+        "icon_name": "cup"
+    },
+    {
+        "route": "/calendar",
+        "name_ka": "კალენდარი",
+        "icon_name": "calendar"
+    },
+    {
+        "route": "/partners",
+        "name_ka": "პარტნიორები",
+        "icon_name": "people"
+    },
+    {
+        "route": "/photo-gallery",
+        "name_ka": "ფოტო გალერეა",
+        "icon_name": "photo"
+    },
+    {
+        "route": "/video-gallery",
+        "name_ka": "ვიდეო გალერეა",
+        "icon_name": "video"
+    },
+    {
+        "route": "/slider",
+        "name_ka": "სლაიდერი",
+        "icon_name": "screenmirroring"
+    },
+    {
+        "route": "/news",
+        "name_ka": "სიახლეები",
+        "icon_name": "flash"
+    },
+    {
+        "route": "/menu",
+        "name_ka": "მენიუ",
+        "icon_name": "ellipse"
+    }
+]

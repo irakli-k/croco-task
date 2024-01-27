@@ -1,0 +1,210 @@
+@font-face {
+    font-family: 'Croco Regular';
+    src: url('@/assets/fonts/NeueCrocoSansRegular.woff') format('truetype');
+}
+@font-face {
+    font-family: 'Croco Medium';
+    src: url('@/assets/fonts/NeueCrocoSansMedium.woff') format('truetype');
+}
+
+:root {
+    background: $bgColor;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+}
+
+body {
+    min-height: 100vh;
+    color: $textColor;
+    background: $bgColor;
+    font-family: 'Croco Regular', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Croco Medium';
+}
+
+#app {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 100%;
+    height: 100vh;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    color: $textColor;
+}
+
+.button {
+    display: flex;
+    //gap in case of icons
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: $accentColor;
+    color: #fff;
+    font-size: 0.875rem;
+    width: fit-content;
+    border: none;
+    outline: none;
+    font-family: 'Croco Medium';
+    cursor: pointer;
+
+    &.cancel-button {
+        @include pill-shape($height: 2rem);
+        background-color: $bgColorLighter;
+        color: #314951;
+    }
+
+    &.edit-button {
+        @include pill-shape($height: 2rem);
+        background-color: rgba(30, 119, 166, 0.3);
+        color: #1e77a6;
+
+        .edit-icon {
+            mask-image: url('@/assets/icons/edit.svg');
+            @include icon-mask($iconHeight: 0.875rem, $fillColor: #1e77a6);
+        }
+    }
+    &.delete-button {
+        @include pill-shape($height: 2rem);
+        background-color: rgba(187, 44, 44, 0.3);
+        color: #bb2c2c;
+
+        .delete-icon {
+            mask-image: url('@/assets/icons/trash.svg');
+            @include icon-mask($iconHeight: 0.875rem, $fillColor: #bb2c2c);
+        }
+    }
+
+    &.loading {
+        color: transparent;
+        user-select: none;
+        pointer-events: none;
+
+        @keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        &::after {
+            content: '';
+            mask-image: url('@/assets/logo.svg');
+            position: absolute;
+            margin: 0 auto;
+            @include icon-mask($iconHeight: 1.5rem, $fillColor: #fff);
+            animation: rotation 1s infinite linear;
+        }
+    }
+
+    &:hover {
+        filter: brightness(115%);
+    }
+    &.light:hover {
+        filter: brightness(90%);
+    }
+}
+
+.input {
+    $inpHeight: 3rem;
+    height: $inpHeight;
+    line-height: $inpHeight;
+    font-family: 'Croco Regular';
+    @include pill-shape($height: $inpHeight);
+    font-size: 0.875rem;
+    border: 1px solid rgba(7, 44, 56, 0.2);
+
+    &::placeholder {
+        color: #2d464e;
+        opacity: 0.6;
+    }
+    &:focus {
+        outline: none;
+    }
+    &::-webkit-inner-spin-button {
+        appearance: none;
+    }
+    &[type='file'] {
+        visibility: hidden;
+        color: rgba(45, 70, 78, 0.6);
+        position: relative;
+        border: none;
+
+        &::before {
+            content: 'ატვირთე სურათი';
+            visibility: visible;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            @include pill-shape($height: $inpHeight);
+            border: 1px solid rgba(7, 44, 56, 0.2);
+            cursor: pointer;
+        }
+
+        &::after {
+            content: '';
+            visibility: visible;
+            position: absolute;
+            right: 0.25rem;
+            top: 0.25rem;
+            width: calc($inpHeight - 0.5rem);
+            height: calc($inpHeight - 0.5rem);
+            border-radius: 50%;
+            background-color: $accentColor;
+            background-image: url('@/assets/icons/gallery.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 1.5rem;
+        }
+    }
+}
+
+.dark-backdrop {
+    position: absolute;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+@media (hover: hover) {
+    a:hover {
+        // background-color: hsla(160, 100%, 37%, 0.2);
+        filter: brightness(125%) contrast(80%) saturate(90%);
+    }
+}
+
+@media (max-width: 1024px) {
+    html {
+        font-size: 14px;
+    }
+}

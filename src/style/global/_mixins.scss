@@ -1,0 +1,17 @@
+@mixin pill-shape($height) {
+    height: $height;
+    line-height: $height;
+    border-radius: calc($height/2);
+    padding: 0 calc($height/2);
+}
+
+@mixin icon-mask($iconHeight: 1rem, $fillColor: #FFF) {
+    // requires mask-image
+    display: block;
+    background-color: $fillColor;
+    height: $iconHeight;
+    width: $iconHeight;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}

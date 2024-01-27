@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,16 +7,67 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      redirect: '/slider'
+    },
+    // route level code-splitting
+    // this generates a separate chunk (About.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    {
+      path: '/content',
+      name: 'content',
+      component: () => import('@/views/SliderView.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/admins',
+      name: 'admins',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/leaderboards',
+      name: 'leaderboards',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/calendar',
+      name: 'calendar',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/partners',
+      name: 'partners',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/photo-gallery',
+      name: 'photo-gallery',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/video-gallery',
+      name: 'video-gallery',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/slider',
+      name: 'slider',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/news',
+      name: 'news',
+      component: () => import('@/views/SliderView.vue')
+    },
+    {
+      path: '/menu',
+      name: 'menu',
+      component: () => import('@/views/SliderView.vue')
+    },
   ]
 })
 

@@ -1,85 +1,89 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+    <div class="mobile-top-bar">
+        <div @click="toggleMobileSidebar" class="hamburger-button"></div>
+        
+        <router-link class="crocobet-logo" to="/">
+            <img src="@/assets/logo.svg" alt="logo" />
+        </router-link>
     </div>
-  </header>
 
-  <RouterView />
+    <side-nav></side-nav>
+    
+    <div id="view-wrapper">
+        <router-view />
+    </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router';
+import SideNav from '@/components/SideNav.vue'
+import { useSidebarState } from '@/use/useSidebarState';
+
+const { toggleMobileSidebar } = useSidebarState();
+</script>
+
+<style scoped lang="scss">
+
+.mobile-top-bar {
+    display: none;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
+#view-wrapper {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+    flex-grow: 1;
+    padding: 2rem;
+    overflow: auto;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+@media (max-width: 1024px) {
+    $topBarHeight: 4rem;
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+    .mobile-top-bar {
+        display: flex;
+        width: 100vw;
+        height: $topBarHeight;
+        position: fixed;
+        background-color: $bgColorLighter;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+        .hamburger-button {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            width: 2.5rem;
+            // padding: 0 1rem;
+            height: $topBarHeight;
+            background-color: $iconColor;
+            cursor: pointer;
+            background: linear-gradient(to bottom,
+                    transparent 20%,
+                    $iconColor 20% 30%,
+                    transparent 30% 45%,
+                    $iconColor 45% 55%,
+                    transparent 55% 70%,
+                    $iconColor 70% 80%,
+                    transparent 80%);
+            ;
+        }
 
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+        .crocobet-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 5.5rem;
+            height: 3rem;
+            transition: width $transitionDuration;
+
+            img {
+                width: inherit;
+            }
+        }
+    }
+
+    #view-wrapper {
+        padding-top: calc($topBarHeight + 2rem);
+    }
 }
 </style>
